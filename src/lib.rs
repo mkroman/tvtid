@@ -10,14 +10,14 @@ pub struct Program {
     title: String,
     /// List of categories that applies to the program
     categories: Vec<String>,
-    /// Returns whether this is available as a VOD
+    /// Indicates whether this is available as a VOD
     #[serde(rename = "availableAsVod")]
     available_as_vod: bool,
-    /// Returns whether this is a rerun
+    /// Indicates whether this is a rerun
     rerun: bool,
-    /// Returns whether this is a premiering episode
+    /// Indicates whether this is a premiering episode
     premiere: bool,
-    /// Returns whether this is a live program
+    /// Indicates whether this is a live program
     live: bool,
     /// The time the program starts, as UTC time.
     #[serde(rename = "start", with = "ts_nanoseconds")]
@@ -28,6 +28,42 @@ pub struct Program {
 }
 
 impl Program {
+    /// Returns the unique ID of the program
+    pub fn id(&self) -> &str {
+        &self.id
+    }
+
+    /// Returns the title of the program
+    pub fn title(&self) -> &str {
+        &self.title
+    }
+
+    /// Returns the list of categories that applies to the program
+    pub fn categories(&self) -> &Vec<String> {
+        &self.categories
+    }
+
+    /// Returns whether this program is available as VOD
+    pub fn available_as_vod(&self) -> bool {
+        self.available_as_vod
+    }
+
+    /// Returns whether this program is a rerun
+    pub fn rerun(&self) -> bool {
+        self.rerun
+    }
+
+    /// Returns whether this program is premiering episode
+    pub fn premiere(&self) -> bool {
+        self.premiere
+    }
+
+    /// Returns whether this is a live program
+    pub fn live(&self) -> bool {
+        self.live
+    }
+
+    /// Returns the duration of the program
     pub fn duration(&self) -> Duration {
         self.ends_at - self.starts_at
     }
@@ -48,6 +84,38 @@ pub struct Channel {
     svg_logo: String,
     /// Sorting index
     sort: u32,
+}
+
+impl Channel {
+    /// Returns the unique ID of the channel
+    pub fn id(&self) -> &str {
+        &self.id
+    }
+
+    /// Returns the name of the channel
+    pub fn title(&self) -> &str {
+        &self.title
+    }
+
+    /// Returns the url for the logo of the channel
+    pub fn logo(&self) -> &str {
+        &self.logo
+    }
+
+    /// Returns the url for the SVG logo of the channel
+    pub fn svg_logo(&self) -> &str {
+        &self.svg_logo
+    }
+
+    /// Returns the url for the icon of the channel
+    pub fn icon(&self) -> &str {
+        &self.icon
+    }
+
+    /// Returns the sorting index
+    pub fn sort(&self) -> u32 {
+        self.sort
+    }
 }
 
 #[cfg(test)]
@@ -95,22 +163,22 @@ mod tests {
 
     #[rstest]
     fn it_deserializes_program(program: Program) {
-        assert_eq!(program.title, "Fantastiske floder: Mississippifloden");
-        assert_eq!(program.id, "20605495");
-        assert_eq!(program.available_as_vod, false);
-        assert!(program.rerun);
-        assert_eq!(program.premiere, false);
-        assert_eq!(program.live, false);
-        assert!(program.categories.len() > 0);
+        assert_eq!(program.title(), "Fantastiske floder: Mississippifloden");
+        assert_eq!(program.id(), "20605495");
+        assert_eq!(program.available_as_vod(), false);
+        assert!(program.rerun());
+        assert_eq!(program.premiere(), false);
+        assert_eq!(program.live(), false);
+        assert!(program.categories().len() > 0);
     }
 
     #[rstest]
     fn it_deserializes_channel(channel: Channel) {
-        assert_eq!(channel.id, "1");
-        assert_eq!(channel.title, "DR1");
-        assert!(!channel.icon.is_empty());
-        assert!(!channel.logo.is_empty());
-        assert!(!channel.svg_logo.is_empty());
+        assert_eq!(channel.id(), "1");
+        assert_eq!(channel.title(), "DR1");
+        assert!(!channel.icon().is_empty());
+        assert!(!channel.logo().is_empty());
+        assert!(!channel.svg_logo().is_empty());
     }
 
     #[rstest]
