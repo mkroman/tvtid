@@ -1,48 +1,18 @@
 version: 2.1
 
 jobs:
-  build:
-    docker:
-      - image: circleci/rust:latest
-    steps:
-      - checkout
-
-      - restore_cache:
-          key: mkroman-tvtid-{{ arch }}
-
-      - run:
-          name: Build in debug mode
-          command: cargo build
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - target/*
-
-      - save_cache:
-          key: mkroman-tvtid-{{ arch }}
-          paths:
-            - target/debug/build
-            - target/debug/deps
-            - target/debug/.fingerprint
-
   test:
     docker:
       - image: circleci/rust:latest
     steps:
-    - attach_workspace:
-        at: .
-
-    - run:
-        name: Run tests
-        command: cargo test
+      - checkout
+      - run:
+          name: Run tests
+          command: cargo test
 
 workflows:
   version: 2
 
-  build_and_test:
+  run-tests:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - test
