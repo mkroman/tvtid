@@ -1,7 +1,13 @@
 use chrono::{serde::ts_nanoseconds, DateTime, Duration, Utc};
 use serde::{Deserialize, Serialize};
 
-/// Structure that contains information for a scheduled program
+mod client;
+mod error;
+
+pub use client::Client;
+pub use error::Error;
+
+/// Structure that contains information about a scheduled program
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Program {
     /// Unique id for the program
@@ -69,6 +75,7 @@ impl Program {
     }
 }
 
+/// Structure that contains information about a channel
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Channel {
     /// The unique ID of the channel
