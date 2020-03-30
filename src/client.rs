@@ -1,26 +1,11 @@
-use crate::Error;
+use crate::{Channel, Error};
+
 use chrono::{Date, Utc};
 
 pub struct Schedule;
 
 pub struct Client {
     http_client: reqwest::Client,
-}
-
-pub trait ChannelId {
-    fn channel_id(&self) -> &str;
-}
-
-impl ChannelId for &str {
-    fn channel_id(&self) -> &str {
-        self.as_ref()
-    }
-}
-
-impl ChannelId for crate::Channel {
-    fn channel_id(&self) -> &str {
-        self.id()
-    }
 }
 
 impl Client {
@@ -32,20 +17,24 @@ impl Client {
     }
 
     /// Returns the schedule for the given `channel` on the given `date`
-    pub fn get_schedule(
+    pub async fn get_schedule(
         &self,
-        channel: impl ChannelId,
+        _channel_id: &str,
         _date: Date<Utc>,
-    ) -> Result<Option<Schedule>, ()> {
+    ) -> Result<Option<Schedule>, Error> {
         unimplemented!()
     }
 
-    /// Returns a list of schedules for the given `channels` on the given `date`
-    pub fn get_schedules(
+    pub async fn get_schedules(
         &self,
-        channels: Vec<impl ChannelId>,
+        _channel_ids: &[&str],
         _date: Date<Utc>,
-    ) -> Result<Option<Schedule>, ()> {
+    ) -> Result<Option<Schedule>, Error> {
+        unimplemented!()
+    }
+
+    /// Returns the list of available channels
+    pub async fn get_channels(&self) -> Result<Option<Vec<Channel>>, Error> {
         unimplemented!()
     }
 }
