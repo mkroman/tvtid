@@ -10,3 +10,9 @@ pub enum Error {
     #[fail(display = "I/O error: {}", _0)]
     IoError(#[fail(cause)] io::Error),
 }
+
+impl From<reqwest::Error> for Error {
+    fn from(err: reqwest::Error) -> Error {
+        Error::ReqwestError(err)
+    }
+}

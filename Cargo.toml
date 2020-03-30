@@ -7,7 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-reqwest = "0.10.4"
+reqwest = { version = "0.10.4", features = ["json"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 chrono = { version = "0.4", features = ["serde"] }
@@ -15,3 +15,7 @@ failure = "0.1.7"
 
 [dev-dependencies]
 rstest = "0.6.0"
+
+# We need tokio to use tokio::test
+tokio = { version = "0.2.13", features = ["full"] }
+tokio-test = "0.2.0"
